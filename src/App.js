@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+test
 //On importe Mapbox
 import mapboxgl from 'mapbox-gl'
 
