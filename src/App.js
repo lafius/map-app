@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Map from './Map.js'
 
 //On importe Mapbox
 import mapboxgl from 'mapbox-gl'
@@ -8,46 +8,31 @@ import mapboxgl from 'mapbox-gl'
 //On donne le token fournie pour mon compte Mapbox
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyaXVzc20iLCJhIjoiY2pvZThiOGdqMDB3azNrbG1ybDRwMXFoayJ9.VhpcScQB1k33pHFtw0T9mg';
 
-class App extends React.Component {
+function MapInfo() {
+  return (
+    <div className="MapInfo" />
+  )
+}
 
-  constructor(props: Props) {
+class App extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
-      lng: 5,
-      lat: 34,
-      zoom: 1.5
-    };
+      //mapCenter:undefined
+    }
+    this.handleMapMove = this.handleMapMove.bind(this);
   }
 
-  componentDidMount() {
-    const { lng, lat, zoom } = this.state;
-    const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [lng, lat],
-      zoom
-    });
-    map.on('move', () => {
-      const { lng, lat } = map.getCenter();
-      this.setState({
-        lng: lng.toFixed(4),
-        lat: lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
-      });
-    });
+  handleMapMove(mapCenter) {
+    this.setState({amapCenter: mapCenter});
+    console.log(mapCenter);
   }
 
   render() {
-    const { lng, lat, zoom } = this.state;
     return (
-      <div>
-        <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-          <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
-        </div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
-      </div>
-    );
+      <Map onMove={this.handleMapMove} />
+    )
   }
-}
+};
 
 export default App;
